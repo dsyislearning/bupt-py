@@ -32,15 +32,15 @@ for area in areas:
             # 获取每一页的房源信息
             sell_list = html.xpath('/html/body/div[4]/div[1]/ul/li')
             for sell in sell_list:
-                # 获取每一条房源信息的标题、面积、总价、单价
-                title = sell.xpath('./div/div/a/text()')[0].strip()
+                # 获取每一条房源信息的楼盘名称、面积、总价、单价
+                title = sell.xpath('./div/div[2]/div/a/text()')[0].strip()
                 area_value = sell.xpath('./div/div[3]/div/text()')[0].split('|')[1].replace('平米', '').strip()
                 total_price = sell.xpath('./div/div[6]/div[1]/span/text()')[0].strip()
                 unit_price = sell.xpath('./div/div[6]/div[2]/span/text()')[0].replace('元/平', '').replace(',', '').strip()
                 # 将每一条房源信息存入data
                 data.append([title, area_value, total_price, unit_price])
         # 将数据写入csv文件
-        with open(area.text + '.csv', 'w', newline='') as f:
+        with open(area.text + '.csv', 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(['title', 'area_value', 'total_price', 'unit_price'])
             writer.writerows(data)
